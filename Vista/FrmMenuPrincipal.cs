@@ -230,7 +230,7 @@ namespace Vista
             MessageBox.Show("Boton Agregar Vuelo: Programar un nuevo vuelo luego de asignar destino y nave\n" +
                 "Boton Agregar Pasajero: Agrega un pasajero nuevo con los datos ingresados y los asigna a un vuelo\n" +
                 "Ver Pasajeros: Permite ver los pasajeros actuales que se encuentran asignados a un vuelo\n" +
-                "Ver Vuelos: Permite ver los vuelos programados, en curso y finalizados\n"
+                "Ver Vuelos: Permite ver los vuelos programados, en curso y finalizados\n"+
                 "Ver Clientes: Nos permite ver clientes y su historial de vuelos individual\n" +
                 "Ver Naves:Nos permite ver los detalles de las naves en la floata y su historial de vuelo\n" +
                 "Ver Destinos:Nos permite ver estadisticas relacionadas con cada destino");
