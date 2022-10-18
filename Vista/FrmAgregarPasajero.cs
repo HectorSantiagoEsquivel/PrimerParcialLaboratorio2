@@ -28,10 +28,17 @@ namespace Vista
 
         private void btn_agregarPasajeroConfirmar_Click(object sender, EventArgs e)
         {
-         
 
-            Frm_confirmacionAgregarPasajero menuConfirmar = new Frm_confirmacionAgregarPasajero(dgv_agregarPasajero,tb_nombre.Text,tb_apellido.Text,tb_DNI.Text,dtp_fechaDeNacimiento.Value,chb_esPremium.Checked);
-            menuConfirmar.Show();
+            if (Validador.ValidarString(tb_nombre.Text) && Validador.ValidarString(tb_apellido.Text) && Validador.ValidarDNI(tb_DNI.Text))
+            {
+
+                Frm_confirmacionAgregarPasajero menuConfirmar = new Frm_confirmacionAgregarPasajero(dgv_agregarPasajero, tb_nombre.Text, tb_apellido.Text, tb_DNI.Text, dtp_fechaDeNacimiento.Value, chb_esPremium.Checked);
+                menuConfirmar.Show();
+            }
+            else
+            {
+                MessageBox.Show("Error: Datos ingresados no validos");
+            }
                  
 
 

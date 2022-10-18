@@ -27,6 +27,15 @@ namespace Entidades
     {
         
         public Clase clase { get; set; }
+
+        public Clase Clase
+        {
+            get => default;
+            set
+            {
+            }
+        }
+
         public List<Equipaje> equipajeEnBodega;
         public Vuelo vuelo;
         public Pasajero( Clase clase, string dni, string nombre, string apellido, int edad, List<Equipaje> equipajeAsignado, Vuelo vueloAsignado) : base(dni, nombre, apellido, edad)
@@ -41,8 +50,19 @@ namespace Entidades
     {
         public List<Vuelo> vuelosRealizados;
         public int contadorVuelosRealizados;
-        public Cliente(string dni, string nombre, string apellido, int edad) : base(dni, nombre, apellido, edad)
+        public Categoria categoria { get; set; }
+
+        public Categoria Categoria
         {
+            get => default;
+            set
+            {
+            }
+        }
+
+        public Cliente(Categoria categoria,string dni, string nombre, string apellido, int edad) : base(dni, nombre, apellido, edad)
+        {
+            this.categoria = categoria;
             vuelosRealizados = new List<Vuelo>();
             contadorVuelosRealizados = 1;
         }
@@ -57,15 +77,40 @@ namespace Entidades
                     {
                         Cliente.contadorVuelosRealizados++;
                         Cliente.vuelosRealizados.Add(pasajeroIngresado.vuelo);
+                        if (Cliente.contadorVuelosRealizados>5)
+                        {
+                            Cliente.categoria = Categoria.Regular;
+                        }
                     }
                 }
             }
             else
             {
-                listaClientes.Add(new Cliente(pasajeroIngresado.dni, pasajeroIngresado.nombre, pasajeroIngresado.apellido, pasajeroIngresado.edad));
-            }
+                listaClientes.Add(new Cliente(Categoria.Ocasional,pasajeroIngresado.dni, pasajeroIngresado.nombre, pasajeroIngresado.apellido, pasajeroIngresado.edad));
+            }         
+        }
 
+        public static void AsignarCategoria(Cliente clienteIngresado, Categoria categoria)
+        {
+            clienteIngresado.categoria = categoria;        
+        }
+
+        public static bool ValidarCategoriaCliente(string dni,List<Cliente> listaIngresada)
+        {
             
+            foreach (var Cliente in listaIngresada)
+            {
+                if (Cliente.dni == dni)
+                {
+                    if (Cliente.categoria == Categoria.NonGrata || Cliente.categoria == Categoria.Volando)
+                    {
+                        return false;
+                    }
+                    break;
+                }
+            }
+            return true;
+
         }
 
     }
@@ -76,6 +121,14 @@ namespace Entidades
     {
         Premium,
         Economica
+    }
+
+    public enum Categoria
+    {
+        Ocasional,
+        Regular,
+        Volando,
+        NonGrata
     }
 
 }

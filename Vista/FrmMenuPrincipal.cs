@@ -22,6 +22,9 @@ namespace Vista
         public List<Pasajero> listaPasajeros;
         public List<Cliente> listaClientes;
         int flag=-1;
+        double acumuladorFacturacionInternacional;
+        double acumuladorFacturacionCabotaje;
+        string nombreDestinoMasElegido = "";
         private FrmMenuPrincipal()
         {
             InitializeComponent();
@@ -154,60 +157,16 @@ namespace Vista
 
         private void t_salidaVuelo_Tick(object sender, EventArgs e)
         {
-                     
-            
-            foreach (var Vuelo in listaVuelos)
-            {
-                var diferenciaSalida = Vuelo.fechaDeSalida-DateTime.Now;
-                var diferenciaLlegada = Vuelo.fechaDeLlegada-DateTime.Now;
-                if (diferenciaSalida.TotalSeconds <= 0 && Vuelo.estadoVueloAsignado == Vuelo.EstadoVuelo.Programado)
-                {
-                    Vuelo.estadoVueloAsignado = Vuelo.EstadoVuelo.Volando;
-                    Vuelo.destino.acumuladorFacturacion = Vuelo.destino.acumuladorFacturacion +
-                        (Vuelo.costoVueloBase * Vuelo.listaPasajeros.Where(Pasajero => Pasajero.clase == Clase.Economica).Count() +
-                        ((Vuelo.costoVueloBase * 15) / 100 + Vuelo.costoVueloBase) * Vuelo.listaPasajeros.Where(Pasajero => Pasajero.clase == Clase.Premium).Count());
-                }
-                if(diferenciaLlegada.TotalSeconds <= 0 && Vuelo.estadoVueloAsignado == Vuelo.EstadoVuelo.Volando)
-                {
-                    Vuelo.estadoVueloAsignado = Vuelo.EstadoVuelo.Finalizado;
-                    Vuelo.nave.horasDeVueloTotal = Vuelo.nave.horasDeVueloTotal + Vuelo.duracionVuelo;
-                    Vuelo.nave.vuelosRealizados.Add(Vuelo);
-                    Vuelo.destino.vuelosRealizados.Add(Vuelo);
-                    Vuelo.nave.asignadoAVuelo = false;
-                    foreach(var PasajeroB in listaPasajeros)
-                    {
-                        if(Vuelo.listaPasajeros.Exists(PasajeroA => PasajeroA.dni == PasajeroB.dni ))
-                        {
-                            listaPasajeros.Remove(PasajeroB);
-                        }
-                    }
-                }
-            }
+            Vuelo.actualizarVuelo(listaVuelos, listaPasajeros);
         }
 
         private void btn_visualizarDestinos_Click(object sender, EventArgs e)
         {
-            double acumuladorFacturacionInternacional=0;
-            double acumuladorFacturacionCabotaje=0;
-            int destinoMasElegidoAuxiliar=-1;
-            string nombreDestinoMasElegido="";
+
             Visualizador.Visualizar(dgv_menuPrincipal, listaDestinos);
-            foreach(var Destino in listaDestinos.Where(Destino=>Destino.tipoServicio==TipoServicio.internacional))
-            {
-                acumuladorFacturacionInternacional = acumuladorFacturacionInternacional + Destino.acumuladorFacturacion;
-            }
-            foreach (var Destino in listaDestinos.Where(Destino => Destino.tipoServicio == TipoServicio.cabotaje))
-            {
-                acumuladorFacturacionCabotaje = acumuladorFacturacionCabotaje + Destino.acumuladorFacturacion;
-            }
-            foreach(var Destino in listaDestinos)
-            {
-                if (Destino.acumuladorVecesElegido > destinoMasElegidoAuxiliar)
-                {
-                    destinoMasElegidoAuxiliar = Destino.acumuladorVecesElegido;
-                    nombreDestinoMasElegido = Destino.nombreDestino;
-                }
-            }
+            acumuladorFacturacionCabotaje = Destino.acumularRecaudacionDestinos(listaDestinos, TipoServicio.cabotaje);
+            acumuladorFacturacionInternacional = Destino.acumularRecaudacionDestinos(listaDestinos, TipoServicio.internacional);
+            nombreDestinoMasElegido = Destino.buscarDestinoMasElegido(listaDestinos);
 
             lbl_estadisticas.Text = "Destino mas elegido: " + nombreDestinoMasElegido + "\n" + "Recaudacion cabotaje: " + acumuladorFacturacionCabotaje + "\n" + "Recaudacion Internacional: " + acumuladorFacturacionInternacional;
 
@@ -234,6 +193,17 @@ namespace Vista
                 "Ver Clientes: Nos permite ver clientes y su historial de vuelos individual\n" +
                 "Ver Naves:Nos permite ver los detalles de las naves en la floata y su historial de vuelo\n" +
                 "Ver Destinos:Nos permite ver estadisticas relacionadas con cada destino");
+        }
+
+        private void lbl_estadisticas_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_agregarNonGrata_Click(object sender, EventArgs e)
+        {
+            Frm_agregarNonGrata frm_AgregarNonGrata = new Frm_agregarNonGrata();
+            frm_AgregarNonGrata.Show();
         }
     }
 }

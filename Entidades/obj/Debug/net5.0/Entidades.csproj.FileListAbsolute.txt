@@ -14,3 +14,5 @@ C:\Users\Santiago\source\repos\Esquivel.HectorSantiago.PrimerParcial\Entidades\o
 C:\Users\Santiago\source\repos\Esquivel.HectorSantiago.PrimerParcial\Entidades\obj\Debug\net5.0\Entidades.pdb
 C:\Users\Santiago\source\repos\Esquivel.HectorSantiago.PrimerParcial\Entidades\obj\Debug\net5.0\Entidades.genruntimeconfig.cache
 C:\Users\Santiago\source\repos\Esquivel.HectorSantiago.PrimerParcial\Entidades\obj\Debug\net5.0\ref\Entidades.dll
+C:\Users\Santiago\source\repos\Esquivel.HectorSantiago.PrimerParcial\Entidades\obj\Debug\net5.0\Interop.VBScript_RegExp_55.dll
+C:\Users\Santiago\source\repos\Esquivel.HectorSantiago.PrimerParcial\Entidades\obj\Debug\net5.0\Entidades.csproj.ResolveComReference.cache

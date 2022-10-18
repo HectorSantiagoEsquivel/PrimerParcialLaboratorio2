@@ -49,22 +49,30 @@
             // 
             // btn_confirmarPasajeroEnVuelo
             // 
+            this.btn_confirmarPasajeroEnVuelo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(242)))), ((int)(((byte)(230)))));
+            this.btn_confirmarPasajeroEnVuelo.FlatAppearance.BorderSize = 0;
+            this.btn_confirmarPasajeroEnVuelo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_confirmarPasajeroEnVuelo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(60)))), ((int)(((byte)(77)))));
             this.btn_confirmarPasajeroEnVuelo.Location = new System.Drawing.Point(12, 209);
             this.btn_confirmarPasajeroEnVuelo.Name = "btn_confirmarPasajeroEnVuelo";
             this.btn_confirmarPasajeroEnVuelo.Size = new System.Drawing.Size(75, 23);
             this.btn_confirmarPasajeroEnVuelo.TabIndex = 3;
             this.btn_confirmarPasajeroEnVuelo.Text = "Confirmar";
-            this.btn_confirmarPasajeroEnVuelo.UseVisualStyleBackColor = true;
+            this.btn_confirmarPasajeroEnVuelo.UseVisualStyleBackColor = false;
             this.btn_confirmarPasajeroEnVuelo.Click += new System.EventHandler(this.btn_confirmarPasajeroEnVuelo_Click);
             // 
             // btn_cancelarPasajeroEnVuelo
             // 
+            this.btn_cancelarPasajeroEnVuelo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(242)))), ((int)(((byte)(230)))));
+            this.btn_cancelarPasajeroEnVuelo.FlatAppearance.BorderSize = 0;
+            this.btn_cancelarPasajeroEnVuelo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btn_cancelarPasajeroEnVuelo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(60)))), ((int)(((byte)(77)))));
             this.btn_cancelarPasajeroEnVuelo.Location = new System.Drawing.Point(126, 209);
             this.btn_cancelarPasajeroEnVuelo.Name = "btn_cancelarPasajeroEnVuelo";
             this.btn_cancelarPasajeroEnVuelo.Size = new System.Drawing.Size(75, 23);
             this.btn_cancelarPasajeroEnVuelo.TabIndex = 4;
             this.btn_cancelarPasajeroEnVuelo.Text = "Cancelar";
-            this.btn_cancelarPasajeroEnVuelo.UseVisualStyleBackColor = true;
+            this.btn_cancelarPasajeroEnVuelo.UseVisualStyleBackColor = false;
             this.btn_cancelarPasajeroEnVuelo.Click += new System.EventHandler(this.btn_cancelarPasajeroEnVuelo_Click);
             // 
             // nud_pesoEquipajeUno
@@ -104,6 +112,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(154)))), ((int)(((byte)(150)))));
             this.ClientSize = new System.Drawing.Size(213, 244);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.nud_pesoEquipajeDos);
@@ -111,6 +120,8 @@
             this.Controls.Add(this.btn_cancelarPasajeroEnVuelo);
             this.Controls.Add(this.btn_confirmarPasajeroEnVuelo);
             this.Controls.Add(this.lbl_costoDeVuelo);
+            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(242)))), ((int)(((byte)(230)))));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Frm_confirmacionAgregarPasajero";
             this.Text = "Frm_confirmacionAgregarPasajero";
             ((System.ComponentModel.ISupportInitialize)(this.nud_pesoEquipajeUno)).EndInit();

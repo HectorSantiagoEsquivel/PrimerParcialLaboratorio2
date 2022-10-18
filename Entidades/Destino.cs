@@ -54,8 +54,39 @@ namespace Entidades
 
             return listaDestinos;
         }
-     
-            
+
+        public static double acumularRecaudacionDestinos(List <Destino> listaDestinos, TipoServicio servicio)
+        {
+            double auxiliarAcumulador=0;
+            foreach(var Destino in listaDestinos.Where(Destino=>Destino.tipoServicio==servicio))
+            {
+                auxiliarAcumulador = auxiliarAcumulador + Destino.acumuladorFacturacion;
+            }
+            return auxiliarAcumulador;
+        }
+
+        public static string buscarDestinoMasElegido(List <Destino> listaDestinos)
+        {
+            int acumuladorDestinoMasElegido = 0;
+            string nombreMasElegidoAuxiliar="Error";
+            foreach (var Destino in listaDestinos)
+            {
+                if (Destino.acumuladorVecesElegido > acumuladorDestinoMasElegido)
+                {
+                    acumuladorDestinoMasElegido = Destino.acumuladorVecesElegido;
+                    nombreMasElegidoAuxiliar = Destino.nombreDestino;
+                }
+            }
+            return nombreMasElegidoAuxiliar;
+        }
+
+        public TipoServicio TipoServicio
+        {
+            get => default;
+            set
+            {
+            }
+        }
     }
 
     public enum TipoServicio

@@ -27,3 +27,4 @@ C:\Users\Santiago\source\repos\Esquivel.HectorSantiago.PrimerParcial\Vista\obj\D
 C:\Users\Santiago\source\repos\Esquivel.HectorSantiago.PrimerParcial\Vista\obj\Debug\net5.0-windows\Vista.FrmAgregarVuelo.resources
 C:\Users\Santiago\source\repos\Esquivel.HectorSantiago.PrimerParcial\Vista\obj\Debug\net5.0-windows\Vista.FrmAgregarPasajero.resources
 C:\Users\Santiago\source\repos\Esquivel.HectorSantiago.PrimerParcial\Vista\obj\Debug\net5.0-windows\Vista.Frm_confirmacionAgregarPasajero.resources
+C:\Users\Santiago\source\repos\Esquivel.HectorSantiago.PrimerParcial\Vista\obj\Debug\net5.0-windows\Vista.Frm_agregarNonGrata.resources

@@ -16,17 +16,14 @@ namespace Vista
         public static FrmLogin instancia;
 
         public FrmLogin()
-        {
-      
+        {     
             InitializeComponent();
-            
-            
+                        
         }
         
 
         private void btn_entrar_Click(object sender, EventArgs e)
-        {
-            
+        {            
             if(this.tb_usuario.Text!=null&&this.tb_usuario.Text!=""&& this.tb_pass.Text != null && this.tb_pass.Text != "")
             {
                 if(Usuario.ValidarUsuario(this.tb_usuario.Text, this.tb_pass.Text))

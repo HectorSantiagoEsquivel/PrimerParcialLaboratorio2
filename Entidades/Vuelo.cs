@@ -65,6 +65,60 @@ namespace Entidades
 
         }
 
+        static public void actualizarVuelo(List<Vuelo> listaVuelos, List<Pasajero> listaPasajeros)
+        {
+            foreach (var Vuelo in listaVuelos)
+            {
+                var diferenciaSalida = Vuelo.fechaDeSalida - DateTime.Now;
+                var diferenciaLlegada = Vuelo.fechaDeLlegada - DateTime.Now;
+                if (diferenciaSalida.TotalSeconds <= 0 && Vuelo.estadoVueloAsignado == Vuelo.EstadoVuelo.Programado)
+                {
+                    Vuelo.estadoVueloAsignado = Vuelo.EstadoVuelo.Volando;
+                    Vuelo.destino.acumuladorFacturacion = Vuelo.destino.acumuladorFacturacion +
+                        (Vuelo.costoVueloBase * Vuelo.listaPasajeros.Where(Pasajero => Pasajero.clase == Clase.Economica).Count() +
+                        ((Vuelo.costoVueloBase * 15) / 100 + Vuelo.costoVueloBase) * Vuelo.listaPasajeros.Where(Pasajero => Pasajero.clase == Clase.Premium).Count());
+                }
+                if (diferenciaLlegada.TotalSeconds <= 0 && Vuelo.estadoVueloAsignado == Vuelo.EstadoVuelo.Volando)
+                {
+                    Vuelo.estadoVueloAsignado = Vuelo.EstadoVuelo.Finalizado;
+                    Vuelo.nave.horasDeVueloTotal = Vuelo.nave.horasDeVueloTotal + Vuelo.duracionVuelo;
+                    Vuelo.nave.vuelosRealizados.Add(Vuelo);
+                    Vuelo.destino.vuelosRealizados.Add(Vuelo);
+                    Vuelo.nave.asignadoAVuelo = false;
+                    foreach (var PasajeroB in listaPasajeros)
+                    {
+                        if (Vuelo.listaPasajeros.Exists(PasajeroA => PasajeroA.dni == PasajeroB.dni))
+                        {
+                            listaPasajeros.Remove(PasajeroB);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        static public void actualizarAsientosDisponibles(Vuelo vueloIngresado, Clase claseIngresada)
+        {
+            if (claseIngresada == Clase.Premium)
+            {
+                vueloIngresado.asientosLibresPremium = vueloIngresado.asientosLibresPremium - 1;
+            }
+            else
+            {
+                vueloIngresado.asientosLibresEco = vueloIngresado.asientosLibresEco - 1;
+            }
+
+        }
+
+        static public bool confirmarAsienstosDisponibles(Vuelo vueloIngresado,Clase claseIngresada)
+        {
+            if((vueloIngresado.asientosLibresEco>1&&claseIngresada==Clase.Economica)|| (vueloIngresado.asientosLibresPremium > 1 && claseIngresada == Clase.Premium))
+            {
+                return true;
+            }
+            return false;
+        }
+
         public enum EstadoVuelo
         {
             Programado,
@@ -72,7 +126,5 @@ namespace Entidades
             Finalizado
 
         }
-
-
     }
 }

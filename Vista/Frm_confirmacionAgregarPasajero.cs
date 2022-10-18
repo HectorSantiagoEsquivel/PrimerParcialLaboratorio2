@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,14 +14,13 @@ namespace Vista
 {
     public partial class Frm_confirmacionAgregarPasajero : Form
     {
-        DataGridView dgvVuelo;
+
+      
+        int maximoPesoEquipaje;
+        int edad;
         string nombre;
         string apellido;
         string dni;
-        DateTime fechaNacimiento;
-        bool esPremium;
-        int maximoPesoEquipaje;
-        int edad;
         Vuelo vuelo;
         Clase clase;
 
@@ -31,18 +31,15 @@ namespace Vista
 
         }
 
-        public Frm_confirmacionAgregarPasajero(DataGridView dgvSeleccionado,string nombreIngresado, string apellidoIngresado, string dniIngresado,DateTime fechaDeNacimientoIngresada, bool esPremiumIngresado) : this()
+        public Frm_confirmacionAgregarPasajero(DataGridView dgvVuelo, string nombreIngresado, string apellidoIngresado, string dniIngresado, DateTime fechaNacimiento, bool esPremium) : this()
         {
-           
+            
             edad= DateTime.Today.Year - fechaNacimiento.Year;
             clase = Clase.Economica;
-            dgvVuelo = dgvSeleccionado;
-            string auxiliar = (string)dgvVuelo.CurrentRow.Cells[0].Value;
             nombre = nombreIngresado;
             apellido = apellidoIngresado;
             dni = dniIngresado;
-            fechaNacimiento = fechaDeNacimientoIngresada;
-            esPremium = esPremiumIngresado;
+            string auxiliar = (string)dgvVuelo.CurrentRow.Cells[0].Value;
             maximoPesoEquipaje = 25;
             nud_pesoEquipajeDos.Hide();
             foreach (var Vuelo in FrmMenuPrincipal.instancia.listaVuelos)
@@ -50,7 +47,6 @@ namespace Vista
                 if (Vuelo.identificadorVuelo == auxiliar)
                 {
                     vuelo=Vuelo.instancia;
-
                     break;
                 }
             }
@@ -71,44 +67,32 @@ namespace Vista
         {
             List<Equipaje> equipajeAsignado= new List<Equipaje>();
 
-            if (Validador.ValidarString(nombre) && Validador.ValidarString(apellido) && Validador.ValidarString(dni))
+
+            if(nud_pesoEquipajeUno.Value != 0)
             {
-                if(nud_pesoEquipajeUno.Value != 0)
-                {
-                    equipajeAsignado.Add(new Equipaje((double)nud_pesoEquipajeUno.Value));
-                }
-                if(nud_pesoEquipajeDos.Value!=0)
-                {
-                    equipajeAsignado.Add(new Equipaje((double)nud_pesoEquipajeDos.Value));
-                }
-                if ((vuelo.asientosLibresPremium > 0 && clase == Clase.Premium) || (vuelo.asientosLibresEco > 0 && clase == Clase.Economica))
-                {
-                    Pasajero nuevoPasajero = new Pasajero(clase, dni, nombre, apellido, edad, equipajeAsignado,vuelo.instancia);
-                    vuelo.listaPasajeros.Add(nuevoPasajero);
-                    FrmMenuPrincipal.instancia.listaPasajeros.Add(nuevoPasajero);
-                    Cliente.AsignarPasajeroAListaClientes(FrmMenuPrincipal.instancia.listaClientes, nuevoPasajero);
-                    if (clase == Clase.Premium)
-                    {
-                        vuelo.asientosLibresPremium = vuelo.asientosLibresPremium - 1;
-                    }
-                    else
-                    {
-                        vuelo.asientosLibresEco = vuelo.asientosLibresEco - 1;
-                    }
-                    this.Close();
-                }
-                else
-                {
-                    MessageBox.Show("No hay asientos disponibles en este vuelo para la clase seleccionada");
-                }
+                equipajeAsignado.Add(new Equipaje((double)nud_pesoEquipajeUno.Value));
+            }
+            if(nud_pesoEquipajeDos.Value!=0)
+            {
+                equipajeAsignado.Add(new Equipaje((double)nud_pesoEquipajeDos.Value));
+            }
+            if (Vuelo.confirmarAsienstosDisponibles(vuelo,clase))
+            {
+                Pasajero nuevoPasajero = new Pasajero(clase, dni, nombre, apellido, edad, equipajeAsignado,vuelo.instancia);
+                vuelo.listaPasajeros.Add(nuevoPasajero);
+                FrmMenuPrincipal.instancia.listaPasajeros.Add(nuevoPasajero);
+                Cliente.AsignarPasajeroAListaClientes(FrmMenuPrincipal.instancia.listaClientes, nuevoPasajero);
+                Vuelo.actualizarAsientosDisponibles(vuelo, clase);
 
-
-
+                this.Close();
             }
             else
             {
-                MessageBox.Show("Error: Datos No validos");
+                MessageBox.Show("No hay asientos disponibles en este vuelo para la clase seleccionada");
             }
+
+            
+
         }
 
         private void btn_cancelarPasajeroEnVuelo_Click(object sender, EventArgs e)

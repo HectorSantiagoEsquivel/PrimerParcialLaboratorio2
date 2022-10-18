@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Entidades
@@ -11,13 +12,23 @@ namespace Entidades
         public static bool ValidarString(string stringAValidar)
         {
 
-            bool retorno = false;
-            if (stringAValidar != null && stringAValidar != "")
+            
+            if (Regex.Match(stringAValidar, "^[A-Z][a-zA-Z]*$").Success)
             {
-                retorno = true;
+                return true;
 
             }
-            return retorno;
+            return false;
+        }
+
+        public static bool ValidarDNI(string dni)
+        {
+            if (Regex.Match(dni, @"^\d{11}$").Success)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
